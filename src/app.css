@@ -100,3 +100,10 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+.marker {
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+  }
