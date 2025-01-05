@@ -18,7 +18,7 @@
     )
 </script>
 
-<aside class="fixed z-[100] top-4 right-4 w-1/4 max-h-[calc(100vh-2rem)] bg-slate-50 rounded-md shadow-lg overflow-y-scroll">
+<aside class="fixed z-[100] top-4 right-4 max-w-1/4 max-h-[calc(100vh-2rem)] bg-slate-50 rounded-md shadow-lg overflow-y-scroll">
         <button class="fixed z-[100] top-4 right-4 bg-slate-50 shadow-lg rounded-full p-2" onclick={() => visible = !visible}>
             {#if visible}
                 <ChevronRight/>

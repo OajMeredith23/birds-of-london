@@ -33,20 +33,6 @@
             zoom: initialState.zoom
         });
 
-      for(let bird of ebird) {
-        const marker = new BirdMarker(bird);
-
-        new mapboxgl.Marker(marker.render())
-          .setLngLat([bird.lng, bird.lat])
-          .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(
-              `<h3>${bird.comName}</h3><p>${bird.locName}</p>`
-            )
-        )
-          .addTo(map);
-      }
-
         setTimeout(() => {
           map.flyTo({
             center: [initialState.lng, initialState.lat],
@@ -60,6 +46,21 @@
       });
     });
   
+    $effect(() => {
+      for(let bird of ebird) {
+        const marker = new BirdMarker(bird);
+        
+        new mapboxgl.Marker(marker.render())
+          .setLngLat([bird.lng, bird.lat])
+          .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(
+              `<h3>${bird.comName}</h3><p>${bird.locName}</p>`
+            )
+        )
+          .addTo(map);
+      }
+    })
     onDestroy(() => {
     //   map.remove();
     });

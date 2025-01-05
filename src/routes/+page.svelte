@@ -3,39 +3,23 @@
 	import type { EBirdResponse } from '../types/e-bird';
 	import Map from "../components/Map.svelte";
 	import List from "../components/List.svelte";
+	import { PUBLIC_LAT, PUBLIC_LON } from '$env/static/public';
 	
-	const {data}: {data: EBirdResponse} = $props();
-	console.log("Birds", data.ebird.length);
+	let {lat, lon} = $state({lat: PUBLIC_LAT, lon: PUBLIC_LON});
 
+	let data: EBirdResponse = $state({ebird: []})
+	async function getBirdData(): Promise<EBirdResponse>{
+		const res = await fetch(`/birds?lat=${lat}&lon=${lon}`, );
+		const data: EBirdResponse = await res.json();
+		console.log("Birds from api", data);
+		return data;
+	}
 
+	onMount(async () => {
+		data = await getBirdData();
+	})
 
-	// const getBirds = async () => {
-
-	// 	const headers = new Headers();
-	// 	headers.append("X-eBirdApiToken", "e9brqjsu4ui8");
-		
-	// 	console.log("Getting birds client")
-	// 	const requestOptions = {
-	// 		method: "GET",
-	// 		headers: headers,
-	// 	};
-	// 	try {
-	// 	const response = await fetch("https://api.ebird.org/v2/data/obs/GB/recent", requestOptions);
-	// 	if (!response.ok) {
-	// 	  throw new Error(`HTTP error! status: ${response.status}`);
-	// 	}
-	// 	const result = await response.json();
-	// 	return { data: result };
-	//   } catch (error) {
-	// 	console.error("Error fetching data:", error);
-	// 	return { error: (error as Error).message };
-	//   }
-	// }
-	// onMount(() => {	
-	// 	getBirds().then((result) => {
-	// 		console.log("Result", result.data.length);
-	// 	});
-	// });
+	
 </script>
 
 <svelte:head>
@@ -48,11 +32,13 @@
 		Birds of London
 	</h1>
 
-	{#if Object.keys(data).length === 0}
+	
+	<Map ebird={data.ebird}/>
+	{#if Object.keys(data.ebird).length === 0}
 		<p>Loading...</p>
 	{:else}
 		<List ebird={data.ebird}/>
-		<Map ebird={data.ebird}/>
+		<!-- <Map ebird={data.ebird}/> -->
 	{/if}
 </section>
 
